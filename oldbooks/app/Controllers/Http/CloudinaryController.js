@@ -7,8 +7,7 @@ const apiSecret = Config.get('cloudinary.api_secret')
 class CloudinaryController {
   sign({request}) {
     let data = request.get();
-    console.log(data);
-    return Cloudinary.utils.api_sign_request(data.params_to_sign, apiSecret);
+    return Cloudinary.utils.api_sign_request(JSON.parse(data.params_to_sign), apiSecret);
   }
 }
 
