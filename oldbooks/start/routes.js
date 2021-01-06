@@ -39,3 +39,6 @@ Route.get('publishers/:publisher_id/delete', 'PublisherController.delete').as('d
 Route.post('publishers/:publisher_id/delete', 'PublisherController.processDelete')
 
 Route.get('/get_cloudinary_signature', 'CloudinaryController.sign');
+
+Route.get('/cart/:book_id/add', 'CartController.add')
+Route.get('/cart/show', 'CartController.show')
