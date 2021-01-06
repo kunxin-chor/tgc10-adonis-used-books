@@ -2,6 +2,8 @@
 
 
 const Book = use('App/Models/Book')
+const Config = use('Config')
+const apiSecret = Config.get('cloudinary.apiSecret')
 
 class BookController {
   async index({view}) {
@@ -23,12 +25,15 @@ class BookController {
   }
 
   create({view}) {
-    return view.render('books/create')
+    return view.render('books/create',{
+      cloudinaryName : Config.get('cloudinary.name'),
+      cloudinaryPreset : Config.get('cloudinary.preset'),
+      cloudinaryApiKey : Config.get('cloudinary.api_key')
+    })
   }
 
   async processCreate({request, response}) {
     let body = request.post();
-    console.log(body);
     let book = new Book();
     book.title = body.title;
     book.condition = body.condition;
