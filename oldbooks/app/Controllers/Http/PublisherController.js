@@ -2,6 +2,7 @@
 
 // the use() function is strictly for Adonis only
 const Publisher = use ('App/Models/Publisher')
+const Country = use ('App/Models/Country')
 
 class PublisherController {
   async index({view}) {
@@ -13,22 +14,29 @@ class PublisherController {
   async show({params, view}) {
     let publisher = await Publisher.find(params.publisher_id)
     let books = await publisher.books().fetch()
+    let country = await publisher.country().fetch()
     return view.render('publishers/show', {
       'publisher': publisher.toJSON(),
-      'books': books.toJSON()
+      'books': books.toJSON(),
+      'country':country.toJSON()
     })
   }
-  create({view}) {
-    return view.render('publishers/create')
+  async create({view}) {
+    let allCountries = await Country.all();
+
+    return view.render('publishers/create', {
+      'countries': allCountries.toJSON()
+    })
   }
-  processCreate({request, response}) {
+  async processCreate({request, response}) {
     // the form is embedded inside the request, so we need to
     // get the request object in the argument
     let formData = request.post();
     let newPublisher = new Publisher();
     newPublisher.name = formData.name;
     newPublisher.email = formData.email;
-    newPublisher.save();
+    newPublisher.country_id = formData.country;
+    await newPublisher.save();
     response.route('show_all_publishers')
   }
   async update({view, params}) {
