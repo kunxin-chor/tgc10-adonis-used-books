@@ -4,6 +4,9 @@
 const Model = use('Model')
 
 class Book extends Model {
+  publisher() {
+    return this.belongsTo('App/Models/Publisher')
+  }
 }
 
 module.exports = Book

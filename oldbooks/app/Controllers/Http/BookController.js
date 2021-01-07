@@ -2,6 +2,7 @@
 
 
 const Book = use('App/Models/Book')
+const Publisher = use ('App/Models/Publisher')
 
 class BookController {
   async index({view}) {
@@ -17,13 +18,19 @@ class BookController {
     let bookId = params.book_id;
     // select * from books where id = bookId
     let book = await Book.find(bookId);
+    let publisher = await book.publisher().fetch();
     return view.render("books/show", {
-      "book": book
+      "book": book.toJSON(),
+      "publisher": publisher.toJSON()
     })
   }
 
-  create({view}) {
-    return view.render('books/create')
+  async create({view}) {
+    // retrieve all the publishers
+    let allPublishers = await Publisher.all()
+    return view.render('books/create',{
+      'publishers': allPublishers.toJSON()
+    })
   }
 
   async processCreate({request, response}) {
@@ -33,6 +40,7 @@ class BookController {
     book.title = body.title;
     book.condition = body.condition;
     book.price = body.price;
+    book.publisher_id = body.publisher
     await book.save();
     return response.route('BookController.index')
   }

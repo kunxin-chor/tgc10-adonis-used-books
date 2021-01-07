@@ -12,8 +12,10 @@ class PublisherController {
   }
   async show({params, view}) {
     let publisher = await Publisher.find(params.publisher_id)
+    let books = await publisher.books().fetch()
     return view.render('publishers/show', {
-      'publisher': publisher.toJSON()
+      'publisher': publisher.toJSON(),
+      'books': books.toJSON()
     })
   }
   create({view}) {

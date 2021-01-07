@@ -16,6 +16,14 @@
         <label class="form-label">Price</label>
         <input type="number" name="price" class="form-control"/>
     </div>
+    <div>
+        <label class="form-label">Publisher:</label>
+        <select name="publisher" class="form-control">
+          @each(p in publishers)
+          <option value='{{p.id}}'>{{p.name}}</option>
+          @endeach
+        </select>
+    </div>
     <input type="submit" value="Add" class="btn btn-primary mt-3"/>
 
 

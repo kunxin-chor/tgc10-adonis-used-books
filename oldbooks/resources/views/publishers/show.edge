@@ -3,4 +3,10 @@
 @section('content')
 <h1>{{publisher.name}}</h1>
 <p>Email: {{publisher.email}}</p>
+<h2>Books published:</h2>
+<ul>
+  @each(b in books)
+    <li>{{b.title}}</li>
+  @endeach
+</ul>
 @endsection
